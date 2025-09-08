@@ -1,0 +1,10 @@
+programa teste
+	inteiro a
+inicio
+	/*
+	  leitura do valor para a variavel a
+	*/
+	leia a
+	a <- a * 10
+	escreve a
+fimprograma
