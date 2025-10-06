@@ -1,4 +1,4 @@
-calc : cal.l calc.y;
+calc : calc.l calc.y;
 	@flex -o lexico.c calc.l
 	@bison -v -d calc.y -o sintatico.c
 	@gcc lexico.c sintatico.c -o calc
