@@ -1,0 +1,6 @@
+programa teste
+    inteiro a b
+inicio
+    leia a
+    escreva a * 3
+fimprograma
