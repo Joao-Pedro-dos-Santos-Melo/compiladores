@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "utis.c"
+#include "utils.c"
 
 /*void msg (char *);
 int yyerror (char *);

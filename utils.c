@@ -1,6 +1,6 @@
 #define TAM_TAB 100
 
-extern void yyerror{char *};
+extern void yyerror(char *);
 
 enum {
     INT,

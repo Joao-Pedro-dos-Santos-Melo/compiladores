@@ -4,4 +4,4 @@ calc : lexico.l sintatico.y;
 	@gcc lexico.c sintatico.c -o simples
 limpa : ;
 	@echo "limpando..."
-	@rm lexico.c sintatico.c sintatico.h sintatico.output calc
+	@rm lexico.c sintatico.c sintatico.h sintatico.output simples
