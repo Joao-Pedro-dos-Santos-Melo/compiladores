@@ -1,0 +1,10 @@
+programa errotipo
+    inteiro x y
+inicio
+    leia x
+    leia y
+    se x + 1
+        entao escreva 100
+        senao escreva 200
+    fimse
+fimprograma
