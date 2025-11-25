@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 typedef struct no *ptno;
 
 struct no {

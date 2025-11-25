@@ -5,6 +5,8 @@
 #include "utils.c"
 #include "tree.c"
 
+#define YYSTYPE ptno
+
 /*void msg (char *);
 int yyerror (char *);
 int yylex ();
@@ -22,6 +24,8 @@ int tipo;
 int rotulo = 0;
 ptno Raiz;
 %}
+
+
 
 %token T_PROGRAMA
 %token T_INICIO
@@ -76,6 +80,7 @@ programa
     T_INICIO lista_comandos T_FIM
         { 
             Raiz = $4;
+            geraDot(Raiz);
 
             int conta = desempilha();
             fprintf(yyout, "\tDMEM\t%d\n", conta);
@@ -121,21 +126,33 @@ lista_variaveis
     ;
 
 lista_comandos
-    : /* vazio */
+    : /* vazio */ { $$ = NULL; }
     | comando lista_comandos
+    {
+        ptno n = criaNo('C', 0);
+        adicionaFilho(n, $2);
+        adicionaFilho(n, $1);
+        $$ = n;
+    }
     ;
 
 comando
-    : leitura
-    | escrita
-    | repeticao
-    | selecao
-    | atribuicao
+    : leitura { $$ = $1; }
+    | escrita { $$ = $1; }
+    | repeticao { $$ = $1; }
+    | selecao { $$ = $1; }
+    | atribuicao { $$ = $1; }
     ;
 
 leitura
     : T_LEIA T_IDENTIF
          {
+            ptno nid = criaNo('i', 0);
+            nid->valor = buscaSimbolo(atomo);
+
+            ptno n = criaNo('L', 0);
+            adicionaFilho(n, nid);
+
             int pos = buscaSimbolo(atomo);
             fprintf(yyout, "\tLEIA\n");
             fprintf(yyout, "\tARZG\t%d\n", tabSimb[pos].end);
@@ -145,6 +162,10 @@ leitura
 escrita
     : T_ESCREVA expressao
          {
+            ptno n = criaNo('E', 0);
+            adicionaFilho(n, $2);
+            $$ = n;
+
             int tipo = desempilha();
             fprintf(yyout, "\tESCR\n");
          }
@@ -167,6 +188,11 @@ repeticao
          }
      lista_comandos T_FIMENQTO
          {
+            ptno n = criaNo('W', 0); // Nó de While
+            adicionaFilho(n, $6);    // Filhos: 1) Lista de Comandos
+            adicionaFilho(n, $4);    //         2) Expressão Condicional
+            $$ = n;
+
             int y = desempilha();
             int x = desempilha();
             fprintf(yyout, "\tDSVS\tL%d\n", x);
@@ -193,6 +219,12 @@ selecao
          }
      lista_comandos T_FIMSE
          { 
+            ptno n = criaNo('I', 0);
+            adicionaFilho(n, $8); // 3º filho (Else)
+            adicionaFilho(n, $5); // 2º filho (Then)
+            adicionaFilho(n, $2); // 1º filho (Condição)
+            $$ = n;
+
             int y = desempilha();
             fprintf(yyout, "L%d\tNADA\n", y);
          }
@@ -205,6 +237,7 @@ atribuicao
         $$ = no_id;
 
         int pos = buscaSimbolo(atomo);
+        $$->valor = pos;
         empilha(pos);
     } 
      T_ATRIB expressao
@@ -298,7 +331,7 @@ expressao
          }
     | expressao T_OU expressao
          { 
-            ptno n = criaNo('OU', 0);
+            ptno n = criaNo('|', 0);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
@@ -311,7 +344,7 @@ expressao
 termo
     : T_IDENTIF
          { 
-            $$ = criaNo('id', 0);
+            $$ = criaNo('i', 0);
             int pos = buscaSimbolo(atomo);
             fprintf(yyout, "\tCRVG\t%d\n", tabSimb[pos].end);
             empilha(tabSimb[pos].tip);
@@ -324,19 +357,22 @@ termo
          }
     | T_V
          { 
-            $$ = criaNo('V', atoi(atomo));
+            $$ = criaNo('V', 1);
             fprintf(yyout, "\tCRCT\t1\n");
             empilha(LOG);
          }
     | T_F
          { 
-            $$ = criaNo('F', atoi(atomo));
+            $$ = criaNo('F', 0);
             fprintf(yyout, "\tCRCT\t0\n"); 
             empilha(LOG);
         }
     | T_NAO termo
          { 
-            $$ = criaNo('NAO', atoi(atomo));
+            ptno n = criaNo('!', 0);
+            adicionaFilho(n, $2);
+            $$ = n;
+
             int tip = desempilha();
             if(tip != LOG){
                 yyerror("Incompatibiliadade de tipo na negacao!\n");
@@ -345,6 +381,9 @@ termo
             fprintf(yyout, "\tNEGA\n");
          }
     | T_ABRE expressao T_FECHA
+    {
+        $$ = $2; // Propaga o nó da expressão interna
+    }
     ;
 %%
 

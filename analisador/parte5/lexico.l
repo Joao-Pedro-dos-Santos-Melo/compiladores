@@ -1,5 +1,4 @@
 %{
-#include "tree.c"
 #include "sintatico.h"
 char atomo[100];
 void yyerror(char *);
