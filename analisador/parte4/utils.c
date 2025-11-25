@@ -25,7 +25,7 @@ void insereSimbolo(elemTabSimb elem){
     ;
     if (i != -1) {
         char msg[200];
-        sprintf(msg, "Erro: simbolo %s ja declarado/n", elem.id);
+        sprintf(msg, "Erro: simbolo %s ja declarado", elem.id);
         yyerror(msg);
     }
 
@@ -39,9 +39,9 @@ int buscaSimbolo(char *id){
     }
     for (i = topoTab - 1; i >= 0 && strcmp(tabSimb[i].id, id); i--)
     ;
-    if (i != -1) {
+    if (i == -1) {
         char msg[200];
-        sprintf(msg, "Erro: simbolo %s ja declarado/n", id);
+        sprintf(msg, "Erro: simbolo [%s] nao foi encontrado", id);
         yyerror(msg);
     }
 
@@ -62,7 +62,7 @@ void empilha(int valor) {
 }
 
 int desempilha(void){
-    if (topo = -1){
+    if (topo == -1){
         yyerror("Erro: Pilha vazia\n");
     }
     return Pilha[topo--];
@@ -76,3 +76,4 @@ void testaTipo(int tipo1, int tipo2, int ret){
     }
     empilha(ret);
 }
+

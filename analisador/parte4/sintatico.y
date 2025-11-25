@@ -19,6 +19,7 @@ extern FILE *yyin, *yyout;
 int contaVar = 0;
 int tipo;
 int rotulo = 0;
+ptno Raiz;
 %}
 
 %token T_PROGRAMA

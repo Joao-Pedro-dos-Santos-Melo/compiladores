@@ -1,7 +1,8 @@
 %{
-   #include "sintatico.h"
-   char atomo[100];
-   void yyerror(char *);
+#include "sintatico.h"
+//#include "tree.c"
+char atomo[100];
+void yyerror(char *);
    /*void msg(char *);
    int nLin = 1;*/
 %}
