@@ -4,16 +4,25 @@
 typedef struct no *ptno;
 
 struct no {
-    char tipo[20];
-    char valor[20];
+    char *tipo;
+    char *valor;
     ptno filho;
     ptno irmao;
 };
 
-ptno criaNo (char tipo[20], char valor[20]){
+ptno criaNo (const char *tipo_str, const char *valor_str){
     ptno n = (ptno)malloc(sizeof(struct no));
-    strcpy(n->tipo, tipo);
-    strcpy(n->valor, valor);
+    
+    if (n == NULL) { return NULL; }
+
+    // 1. Aloca memória exata para a string tipo e copia
+    n->tipo = (char *)malloc(strlen(tipo_str) + 1);
+    strcpy(n->tipo, tipo_str);
+
+    // 2. Aloca memória exata para a string valor e copia
+    n->valor = (char *)malloc(strlen(valor_str) + 1);
+    strcpy(n->valor, valor_str);
+
     n->filho = NULL;
     n->irmao = NULL;
     return n;
@@ -34,7 +43,7 @@ void mostra(ptno Raiz, int nivel){
     ptno p;
     for(int i = 0; i < nivel; i++)
         printf("\t");
-    printf("[%c|%d]\n", Raiz->tipo, Raiz->valor);
+    printf("[%s|%s]\n", Raiz->tipo, Raiz->valor);
     p = Raiz->filho;
     while (p){
         mostra(p, nivel + 1);
@@ -48,7 +57,7 @@ void geraNos(FILE *f, ptno Raiz){
         return;
     }
     ptno p;
-    fprintf(f, "\tn%p [label=\"%c|%d\"]\n", Raiz, Raiz->tipo, Raiz->valor);
+    fprintf(f, "\tn%p [label=\"%s|%s\"]\n", Raiz, Raiz->tipo, Raiz->valor);
     p = Raiz->filho;
     while(p){
         geraNos(f, p);

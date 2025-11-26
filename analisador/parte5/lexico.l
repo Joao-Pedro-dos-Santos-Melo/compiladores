@@ -5,8 +5,8 @@
 // Definições de Estrutura (Copiadas de tree.c)
 typedef struct no *ptno;
 struct no {
-    char tipo[20];
-    char valor[20];
+    char *tipo;
+    char *valor;
     ptno filho;
     ptno irmao;
 };
@@ -15,7 +15,7 @@ struct no {
 #define YYSTYPE ptno
 
 // Declarações Externas para as funções (Implementação está no sintatico.c via include)
-extern ptno criaNo (char tipo[20], char valor[20]); 
+extern ptno criaNo (const char *tipo_str, const char *valor_str); 
 extern void adicionaFilho (ptno pai, ptno filho);
 
 

@@ -67,7 +67,11 @@ programa
     variaveis 
     T_INICIO lista_comandos T_FIM
         { 
-            Raiz = $4;
+            ptno n = criaNo("Programa", "");
+            adicionaFilho(n, $4);
+            adicionaFilho(n, $2);
+            adicionaFilho(n, $1);
+            Raiz = n;
             geraDot(Raiz);
         }
     ;
@@ -75,7 +79,7 @@ programa
 cabecalho
     : T_PROGRAMA T_IDENTIF
     {
-        ptno n = criaNo("Cabecalho", "");
+        ptno n = criaNo("Identificador", atomo);
         $$ = n;
     }
     ;
@@ -84,16 +88,16 @@ variaveis
     : /* vario */{ $$ = NULL; }
     | declaracao_variaveis
     {
-        ptno n = criaNo("Variavel", "");
+        ptno n = criaNo("Declaracao de Variaveis", "");
         adicionaFilho(n, $1);
-        $$ = n;
+        $$ = $1;
     }
     ;
 
 declaracao_variaveis
     : tipo lista_variaveis declaracao_variaveis
     {
-        ptno n = criaNo("declaracaoV1", "");
+        ptno n = criaNo("Declaracao de Variaveis", "");
         adicionaFilho(n, $3);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
@@ -101,7 +105,7 @@ declaracao_variaveis
     }
     | tipo lista_variaveis
     {
-        ptno n = criaNo("DeclaracaoV2", "");
+        ptno n = criaNo("Declaracao de Variaveis", "");
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -114,24 +118,27 @@ tipo
     ;
 
 lista_variaveis
-    : lista_variaveis
-        T_IDENTIF
+    : lista_variaveis T_IDENTIF
         {
-            ptno n = criaNo("ListaVar", atomo);
+            ptno n = criaNo("Identificador1", atomo);
             adicionaFilho(n, $1);
             $$ = n;
         }
         | T_IDENTIF
         {
-            $$ = criaNo("ListaVat", atomo);
+            ptno n = criaNo("Lista de comandos", "");
+            ptno n2 = criaNo("Identificador2", atomo);
+            adicionaFilho(n, n2);
+            $$ = n;
         }
     ;
 
 lista_comandos
     : /* vazio */ { $$ = NULL; }
+    | comando { $$ = $1; }
     | comando lista_comandos
     {
-        ptno n = criaNo("ListaCom", "");
+        ptno n = criaNo("Lista Comandos", "");
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -149,8 +156,8 @@ comando
 leitura
     : T_LEIA T_IDENTIF
          {
-            ptno nid = criaNo("IdenticadorLeitura", "");
-            ptno n = criaNo("T_LEIA", "");
+            ptno nid = criaNo("IdenticadorLeitura", atomo);
+            ptno n = criaNo("Leitura", "");
             adicionaFilho(n, nid);
             $$ = n;
          }
@@ -159,7 +166,7 @@ leitura
 escrita
     : T_ESCREVA expressao
          {
-            ptno n = criaNo("Escreva", "");
+            ptno n = criaNo("Escrita", "");
             adicionaFilho(n, $2);
             $$ = n;
          }
@@ -189,12 +196,12 @@ selecao
 atribuicao
     : T_IDENTIF
     {
-        ptno no_id = criaNo("IdentificadorAtri", ""); // Nó para o Identificador
+        ptno no_id = criaNo("IdentificadorAtri", atomo); // Nó para o Identificador
         $$ = no_id;
     } 
      T_ATRIB expressao
     { 
-        ptno n = criaNo("<-", "");
+        ptno n = criaNo("Atribuicao", "");
         adicionaFilho(n, $3); 
         adicionaFilho(n, $1); 
         $$ = n;
@@ -205,49 +212,49 @@ atribuicao
 expressao
     : expressao T_VEZES expressao
          { 
-            ptno n = criaNo("*", "");
+            ptno n = criaNo("Multiplicao", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_DIV expressao
          { 
-            ptno n = criaNo("/", "");
+            ptno n = criaNo("Divisao", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MAIS expressao
          { 
-            ptno n = criaNo("+", "");
+            ptno n = criaNo("Soma", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MENOS expressao
          { 
-            ptno n = criaNo("-", "");
+            ptno n = criaNo("Subtracao", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MAIOR expressao
          { 
-            ptno n = criaNo(">", "");
+            ptno n = criaNo("Maior", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MENOR expressao
          { 
-            ptno n = criaNo("<", "");
+            ptno n = criaNo("Menor", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_IGUAL expressao
          { 
-            ptno n = criaNo("=", "");
+            ptno n = criaNo("Igual", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;

@@ -1,18 +1,30 @@
 digraph {
 	node [ shape=record, height = .1] ;
-	n0x575c48c8e9f0 [label="ð|1221126660"]
-	n0x575c48c8e870 [label="p|1221126276"]
-	n0x575c48c8e830 [label="0|1221126212"]
-	n0x575c48c8e9b0 [label="°|1221126596"]
-	n0x575c48c8e970 [label="p|1221126532"]
-	n0x575c48c8e930 [label="0|1221126468"]
-	n0x575c48c8e8b0 [label="°|1221126340"]
-	n0x575c48c8e8f0 [label="ð|1221126404"]
-	n0x575c48c8e9f0 -> n0x575c48c8e870
-	n0x575c48c8e870 -> n0x575c48c8e830
-	n0x575c48c8e9f0 -> n0x575c48c8e9b0
-	n0x575c48c8e9b0 -> n0x575c48c8e970
-	n0x575c48c8e970 -> n0x575c48c8e930
-	n0x575c48c8e930 -> n0x575c48c8e8b0
-	n0x575c48c8e930 -> n0x575c48c8e8f0
+	n0x5c3f1cf14d10 [label="Programa|"]
+	n0x5c3f1cf146f0 [label="Identificador|dobro"]
+	n0x5c3f1cf148b0 [label="Declaracao de Variaveis|"]
+	n0x5c3f1cf14760 [label="Tipo|Inteiro"]
+	n0x5c3f1cf147d0 [label="Lista de comandos|"]
+	n0x5c3f1cf14840 [label="Identificador2|n"]
+	n0x5c3f1cf14ca0 [label="Lista Comandos|"]
+	n0x5c3f1cf14a00 [label="Leitura|"]
+	n0x5c3f1cf14990 [label="IdenticadorLeitura|n"]
+	n0x5c3f1cf14c30 [label="Lista Comandos|"]
+	n0x5c3f1cf14bc0 [label="Escrita|"]
+	n0x5c3f1cf14b50 [label="Multiplicao|"]
+	n0x5c3f1cf14a70 [label="Numero|2"]
+	n0x5c3f1cf14ae0 [label="IdentificadorTermo|n"]
+	n0x5c3f1cf14d10 -> n0x5c3f1cf146f0
+	n0x5c3f1cf14d10 -> n0x5c3f1cf148b0
+	n0x5c3f1cf148b0 -> n0x5c3f1cf14760
+	n0x5c3f1cf148b0 -> n0x5c3f1cf147d0
+	n0x5c3f1cf147d0 -> n0x5c3f1cf14840
+	n0x5c3f1cf14d10 -> n0x5c3f1cf14ca0
+	n0x5c3f1cf14ca0 -> n0x5c3f1cf14a00
+	n0x5c3f1cf14a00 -> n0x5c3f1cf14990
+	n0x5c3f1cf14ca0 -> n0x5c3f1cf14c30
+	n0x5c3f1cf14c30 -> n0x5c3f1cf14bc0
+	n0x5c3f1cf14bc0 -> n0x5c3f1cf14b50
+	n0x5c3f1cf14b50 -> n0x5c3f1cf14a70
+	n0x5c3f1cf14b50 -> n0x5c3f1cf14ae0
 }
