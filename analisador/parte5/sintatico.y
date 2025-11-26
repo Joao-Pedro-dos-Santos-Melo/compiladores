@@ -194,18 +194,19 @@ selecao
     ;
 
 atribuicao
-    : T_IDENTIF
-    {
-        ptno no_id = criaNo("IdentificadorAtri", atomo); // Nó para o Identificador
-        $$ = no_id;
-    } 
-     T_ATRIB expressao
+    : T_IDENTIF T_ATRIB expressao
     { 
         ptno n = criaNo("Atribuicao", "");
+        ptno n2 = criaNo("Identificador Atribuiao", atomo);
         adicionaFilho(n, $3); 
-        adicionaFilho(n, $1); 
+        adicionaFilho(n, n2); 
         $$ = n;
 
+        // ptno no_id = $1;
+        // ptno no_expr = $3;
+        // adicionaFilho(n, no_expr); // Expressão (Lado Direito)
+        // adicionaFilho(n, no_id);   // Identificador (Lado Esquerdo)
+        // $$ = n;
     }
     ;
 
