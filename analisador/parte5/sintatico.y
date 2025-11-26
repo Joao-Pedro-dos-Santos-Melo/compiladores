@@ -7,13 +7,6 @@
 
 #define YYSTYPE ptno
 
-/*void msg (char *);
-int yyerror (char *);
-int yylex ();
-extern char atomo[100];
-extern FILE *yyin;
-extern FILE *yyout;*/
-
 extern void yyerror(char *);
 extern int yylex();
 extern char atomo[100];
@@ -71,58 +64,66 @@ ptno Raiz;
 
 programa
     : cabecalho
-        { fprintf(yyout, "\tINPP\n"); } 
     variaveis 
-        { 
-            fprintf(yyout, "\tAMEM\t%d\n", contaVar); 
-            empilha(contaVar);
-        }
     T_INICIO lista_comandos T_FIM
         { 
-            Raiz = $6;
+            Raiz = $4;
             geraDot(Raiz);
-            
-
-            int conta = desempilha();
-            fprintf(yyout, "\tDMEM\t%d\n", conta);
-            fprintf(yyout, "\tFIMP\n"); 
         }
     ;
 
 cabecalho
     : T_PROGRAMA T_IDENTIF
+    {
+        ptno n = criaNo("Cabecalho", "");
+        $$ = n;
+    }
     ;
 
 variaveis
-    : /* vario */
+    : /* vario */{ $$ = NULL; }
     | declaracao_variaveis
+    {
+        ptno n = criaNo("Variavel", "");
+        adicionaFilho(n, $1);
+        $$ = n;
+    }
     ;
 
 declaracao_variaveis
     : tipo lista_variaveis declaracao_variaveis
+    {
+        ptno n = criaNo("declaracaoV1", "");
+        adicionaFilho(n, $3);
+        adicionaFilho(n, $2);
+        adicionaFilho(n, $1);
+        $$ = n;
+    }
     | tipo lista_variaveis
+    {
+        ptno n = criaNo("DeclaracaoV2", "");
+        adicionaFilho(n, $2);
+        adicionaFilho(n, $1);
+        $$ = n;
+    }
     ;
 
 tipo
-    : T_LOGICO { tipo = LOG; }
-    | T_INTEIRO { tipo = INT; }
+    : T_LOGICO { $$ = criaNo("Tipo", "Logico"); }
+    | T_INTEIRO { $$ = criaNo("Tipo", "Inteiro"); }
     ;
 
 lista_variaveis
     : lista_variaveis
         T_IDENTIF
         {
-            strcpy(elemTab.id, atomo);
-            elemTab.tip = tipo;
-            elemTab.end = contaVar++;
-            insereSimbolo(elemTab);
+            ptno n = criaNo("ListaVar", atomo);
+            adicionaFilho(n, $1);
+            $$ = n;
         }
         | T_IDENTIF
         {
-            strcpy(elemTab.id, atomo);
-            elemTab.tip = tipo;
-            elemTab.end = contaVar++;
-            insereSimbolo(elemTab);
+            $$ = criaNo("ListaVat", atomo);
         }
     ;
 
@@ -130,7 +131,7 @@ lista_comandos
     : /* vazio */ { $$ = NULL; }
     | comando lista_comandos
     {
-        ptno n = criaNo('C', 0);
+        ptno n = criaNo("ListaCom", "");
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -148,245 +149,152 @@ comando
 leitura
     : T_LEIA T_IDENTIF
          {
-            ptno nid = criaNo('i', 0);
-            nid->valor = buscaSimbolo(atomo);
-
-            ptno n = criaNo('L', 0);
+            ptno nid = criaNo("IdenticadorLeitura", "");
+            ptno n = criaNo("T_LEIA", "");
             adicionaFilho(n, nid);
             $$ = n;
-
-            int pos = buscaSimbolo(atomo);
-            fprintf(yyout, "\tLEIA\n");
-            fprintf(yyout, "\tARZG\t%d\n", tabSimb[pos].end);
          }
     ;
 
 escrita
     : T_ESCREVA expressao
          {
-            ptno n = criaNo('E', 0);
+            ptno n = criaNo("Escreva", "");
             adicionaFilho(n, $2);
             $$ = n;
-
-            int tipo = desempilha();
-            fprintf(yyout, "\tESCR\n");
          }
     ;
 
 repeticao
-    : T_ENQTO
-         { 
-            fprintf(yyout, "L%d\tNADA\n", ++rotulo);
-            empilha(rotulo);
-         }
-     expressao T_FACA
-         { 
-            int tip = desempilha();
-            if(tip != LOG){
-                yyerror("Expressao na selecao tem que ser logica!\n");
-            }
-            fprintf(yyout, "\tDSVF\tL%d\n", ++rotulo);
-            empilha(rotulo);
-         }
-     lista_comandos T_FIMENQTO
+    : T_ENQTO expressao T_FACA lista_comandos T_FIMENQTO
          {
-            ptno n = criaNo('W', 0); // Nó de While
-            adicionaFilho(n, $6);    // Filhos: 1) Lista de Comandos
-            adicionaFilho(n, $3);    //         2) Expressão Condicional
+            ptno n = criaNo("Repeticao", ""); // Nó de While
+            adicionaFilho(n, $4);    // Filhos: 1) Lista de Comandos
+            adicionaFilho(n, $2);    //         2) Expressão Condicional
             $$ = n;
-
-            int y = desempilha();
-            int x = desempilha();
-            fprintf(yyout, "\tDSVS\tL%d\n", x);
-            fprintf(yyout, "L%d\tNADA\n", y);
          }
     ;
 
 selecao
-    : T_SE expressao T_ENTAO
+    : T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE
          { 
-            int tip = desempilha();
-            if(tip != LOG){
-                yyerror("Expressao na selecao tem que ser logica!\n");
-            }
-            fprintf(yyout, "\tDSVF\tL%d\n", ++rotulo);
-            empilha(rotulo);
-         }
-     lista_comandos T_SENAO
-         { 
-            int x = desempilha();
-            fprintf(yyout, "\tDSVS\tL%d\n", ++rotulo);
-            empilha(rotulo);
-            fprintf(yyout, "L%d\tNADA\n", x); 
-         }
-     lista_comandos T_FIMSE
-         { 
-            ptno n = criaNo('I', 0);
-            adicionaFilho(n, $8); // 3º filho (Else)
-            adicionaFilho(n, $5); // 2º filho (Then)
+            ptno n = criaNo("Selecao", "");
+            adicionaFilho(n, $6); // 3º filho (Else)
+            adicionaFilho(n, $4); // 2º filho (Then)
             adicionaFilho(n, $2); // 1º filho (Condição)
             $$ = n;
-
-            int y = desempilha();
-            fprintf(yyout, "L%d\tNADA\n", y);
          }
     ;
 
 atribuicao
     : T_IDENTIF
     {
-        ptno no_id = criaNo('i', 0); // Nó para o Identificador
+        ptno no_id = criaNo("IdentificadorAtri", ""); // Nó para o Identificador
         $$ = no_id;
-
-        int pos = buscaSimbolo(atomo);
-        $$->valor = pos;
-        empilha(pos);
     } 
      T_ATRIB expressao
     { 
-        ptno n = criaNo('=', 0);
+        ptno n = criaNo("<-", "");
         adicionaFilho(n, $3); 
         adicionaFilho(n, $1); 
         $$ = n;
 
-        int tip = desempilha();
-        int pos = desempilha();
-        if (tip != tabSimb[pos].tip){
-            yyerror("Incompatibilidade de tipos na atribuicao!\n");
-        }
-        fprintf(yyout, "\tARZG\t%d\n", tabSimb[pos].end); 
     }
     ;
 
 expressao
     : expressao T_VEZES expressao
          { 
-            ptno n = criaNo('*', 0);
+            ptno n = criaNo("*", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, INT);
-            fprintf(yyout, "\tMULT\n"); 
          }
     | expressao T_DIV expressao
          { 
-            ptno n = criaNo('/', 0);
+            ptno n = criaNo("/", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, INT);
-            fprintf(yyout, "\tDIVI\n"); 
          }
     | expressao T_MAIS expressao
          { 
-            ptno n = criaNo('+', 0);
+            ptno n = criaNo("+", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, INT);
-            fprintf(yyout, "\tSOMA\n"); 
          }
     | expressao T_MENOS expressao
          { 
-            ptno n = criaNo('-', 0);
+            ptno n = criaNo("-", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, INT);
-            fprintf(yyout, "\tSUBT\n");
          }
     | expressao T_MAIOR expressao
          { 
-            ptno n = criaNo('>', 0);
+            ptno n = criaNo(">", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, LOG);
-            fprintf(yyout, "\tCMMA\n");
          }
     | expressao T_MENOR expressao
          { 
-            ptno n = criaNo('<', 0);
+            ptno n = criaNo("<", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, LOG);
-            fprintf(yyout, "\tCMME\n");
          }
     | expressao T_IGUAL expressao
          { 
-            ptno n = criaNo('=', 0);
+            ptno n = criaNo("=", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(INT, INT, LOG);
-            fprintf(yyout, "\tCMIG\n");
          }
     | expressao T_E expressao
          { 
-            ptno n = criaNo('&', 0);
+            ptno n = criaNo("&", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(LOG, LOG, LOG);
-            fprintf(yyout, "\tCONJ\n"); 
          }
     | expressao T_OU expressao
          { 
-            ptno n = criaNo('|', 0);
+            ptno n = criaNo("OU", "");
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
-            testaTipo(LOG, LOG, LOG);
-            fprintf(yyout, "\tDISJ\n");
          }
-    | termo
+    | termo {$$ = $1; }
     ;
 
 termo
     : T_IDENTIF
          { 
             // 1. Cria o nó para o Identificador
-            ptno n = criaNo('i', 0);
-            int pos = buscaSimbolo(atomo);
-            // 2. Armazena o endereço (end) no campo valor do nó
-            n->valor = tabSimb[pos].end;
+            ptno n = criaNo("IdentificadorTermo", atomo);
             $$ = n; // Propaga o nó para o próximo nível
-            fprintf(yyout, "\tCRVG\t%d\n", tabSimb[pos].end);
-            empilha(tabSimb[pos].tip);
          }
     | T_NUMERO
          { 
             // 1. Cria o nó para o literal numérico
-            ptno n = criaNo('n', atoi(atomo)); 
+            ptno n = criaNo("Numero", atomo); 
             $$ = n; // Propaga o nó para o próximo nível
-            fprintf(yyout, "\tCRCT\t%s\n", atomo);
-            empilha(INT);
          }
     | T_V
          { 
-            $$ = criaNo('V', 1);
-            fprintf(yyout, "\tCRCT\t1\n");
-            empilha(LOG);
+            $$ = criaNo("V", "");
          }
     | T_F
          { 
-            $$ = criaNo('F', 0);
-            fprintf(yyout, "\tCRCT\t0\n"); 
-            empilha(LOG);
+            $$ = criaNo("F", "");
         }
     | T_NAO termo
          { 
-            ptno n = criaNo('!', 0);
+            ptno n = criaNo("NAO", "");
             adicionaFilho(n, $2);
             $$ = n;
-
-            int tip = desempilha();
-            if(tip != LOG){
-                yyerror("Incompatibiliadade de tipo na negacao!\n");
-            }
-            empilha(LOG);
-            fprintf(yyout, "\tNEGA\n");
          }
     | T_ABRE expressao T_FECHA
     {

@@ -5,8 +5,8 @@
 // Definições de Estrutura (Copiadas de tree.c)
 typedef struct no *ptno;
 struct no {
-    char tipo;
-    int valor;
+    char tipo[20];
+    char valor[20];
     ptno filho;
     ptno irmao;
 };
@@ -15,14 +15,13 @@ struct no {
 #define YYSTYPE ptno
 
 // Declarações Externas para as funções (Implementação está no sintatico.c via include)
-extern ptno criaNo (char tipo, int valor); 
+extern ptno criaNo (char tipo[20], char valor[20]); 
 extern void adicionaFilho (ptno pai, ptno filho);
 
 
 char atomo[100];
 void yyerror(char *);
-   /*void msg(char *);
-   int nLin = 1;*/
+
 %}
 
 identificador  [a-zA-Z]([a-zA-Z0-9])*
@@ -85,7 +84,7 @@ F           { return T_F; }
 }
 {numero}        {
    strcpy (atomo, yytext);
-   yylval = criaNo('n', atoi(yytext));
+   //yylval = criaNo('n', atoi(yytext));
    return T_NUMERO;
 }
 {espaco}        /* nao faz nada */
