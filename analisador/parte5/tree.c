@@ -38,6 +38,7 @@ void mostra(ptno Raiz, int nivel){
 }
 
 void geraNos(FILE *f, ptno Raiz){
+    if (Raiz == NULL) return;
     ptno p;
     fprintf(f, "\tn%p [label=\"%c|%d\"]\n", Raiz, Raiz->tipo, Raiz->valor);
     p = Raiz->filho;
@@ -57,6 +58,7 @@ void geraLigacoes(FILE *f,ptno Raiz){
     }
 }
 void geraDot(ptno Raiz){
+    if (Raiz == NULL) return;
     FILE *f = fopen("tree.dot", "wt");
     fprintf(f, "digraph {\n");
     fprintf(f, "\tnode [ shape=record, height = .1] ;\n");
@@ -66,5 +68,5 @@ void geraDot(ptno Raiz){
     fclose(f);
     system("dot -Tpng tree.dot -o tree.png");
     //system("eog tree.png &");//nao ta funcionando, teste
-    //exit(0);
+    exit(0);
 }

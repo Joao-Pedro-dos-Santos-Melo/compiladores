@@ -79,8 +79,9 @@ programa
         }
     T_INICIO lista_comandos T_FIM
         { 
-            Raiz = $4;
+            Raiz = $6;
             geraDot(Raiz);
+            
 
             int conta = desempilha();
             fprintf(yyout, "\tDMEM\t%d\n", conta);
@@ -152,6 +153,7 @@ leitura
 
             ptno n = criaNo('L', 0);
             adicionaFilho(n, nid);
+            $$ = n;
 
             int pos = buscaSimbolo(atomo);
             fprintf(yyout, "\tLEIA\n");
@@ -190,7 +192,7 @@ repeticao
          {
             ptno n = criaNo('W', 0); // Nó de While
             adicionaFilho(n, $6);    // Filhos: 1) Lista de Comandos
-            adicionaFilho(n, $4);    //         2) Expressão Condicional
+            adicionaFilho(n, $3);    //         2) Expressão Condicional
             $$ = n;
 
             int y = desempilha();
@@ -243,8 +245,8 @@ atribuicao
      T_ATRIB expressao
     { 
         ptno n = criaNo('=', 0);
-        adicionaFilho(n, $1); 
         adicionaFilho(n, $3); 
+        adicionaFilho(n, $1); 
         $$ = n;
 
         int tip = desempilha();
@@ -344,14 +346,20 @@ expressao
 termo
     : T_IDENTIF
          { 
-            $$ = criaNo('i', 0);
+            // 1. Cria o nó para o Identificador
+            ptno n = criaNo('i', 0);
             int pos = buscaSimbolo(atomo);
+            // 2. Armazena o endereço (end) no campo valor do nó
+            n->valor = tabSimb[pos].end;
+            $$ = n; // Propaga o nó para o próximo nível
             fprintf(yyout, "\tCRVG\t%d\n", tabSimb[pos].end);
             empilha(tabSimb[pos].tip);
          }
     | T_NUMERO
          { 
-            $$ = criaNo('n', atoi(atomo));
+            // 1. Cria o nó para o literal numérico
+            ptno n = criaNo('n', atoi(atomo)); 
+            $$ = n; // Propaga o nó para o próximo nível
             fprintf(yyout, "\tCRCT\t%s\n", atomo);
             empilha(INT);
          }
@@ -392,22 +400,25 @@ void yyerror(char *s){
 }
 
 int main (int argc, char *argv[]){
-    
+
     char nameIn[30], nameOut[30], *p;
     if (argc < 2){
         printf("Uso:\n\t%s <nomefonte>[.simples]\n\n", argv[0]);
         return 10;
     }
+
     p = strstr(argv[1], ".simples");
     if (p){
         *p = 0;
     }
+
     strcpy(nameIn, argv[1]);
     strcpy(nameOut, argv[1]);
     strcat(nameIn, ".simples");
     strcat(nameOut, ".mvs");
     yyin = fopen(nameIn, "rt");
     yyout = fopen(nameOut, "wt");
+
 
     yyparse();
     printf("programa Ok!\n");

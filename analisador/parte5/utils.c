@@ -1,4 +1,7 @@
 #define TAM_TAB 100
+#include <stdlib.h>
+#include <stdio.h>    
+#include <string.h>   
 
 extern void yyerror(char *);
 

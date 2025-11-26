@@ -1,5 +1,24 @@
 %{
 #include "sintatico.h"
+#include <stdlib.h>
+
+// Definições de Estrutura (Copiadas de tree.c)
+typedef struct no *ptno;
+struct no {
+    char tipo;
+    int valor;
+    ptno filho;
+    ptno irmao;
+};
+
+// Declaração do YYSTYPE
+#define YYSTYPE ptno
+
+// Declarações Externas para as funções (Implementação está no sintatico.c via include)
+extern ptno criaNo (char tipo, int valor); 
+extern void adicionaFilho (ptno pai, ptno filho);
+
+
 char atomo[100];
 void yyerror(char *);
    /*void msg(char *);
@@ -66,6 +85,7 @@ F           { return T_F; }
 }
 {numero}        {
    strcpy (atomo, yytext);
+   yylval = criaNo('n', atoi(yytext));
    return T_NUMERO;
 }
 {espaco}        /* nao faz nada */
