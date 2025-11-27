@@ -1,70 +1,30 @@
 digraph {
 	node [ shape=record, height = .1] ;
-	n0x64e782b9e5d0 [label="Programa|"]
-	n0x64e782b9d6f0 [label="Identificador|fatorial"]
-	n0x64e782b9d920 [label="Declaracao de Variaveis|"]
-	n0x64e782b9d760 [label="Tipo|Inteiro"]
-	n0x64e782b9d8b0 [label="Identificador1|fat"]
-	n0x64e782b9d7d0 [label="Lista de comandos|"]
-	n0x64e782b9d840 [label="Identificador2|n"]
-	n0x64e782b9e560 [label="Lista Comandos|"]
-	n0x64e782b9da70 [label="Leitura|"]
-	n0x64e782b9da00 [label="IdenticadorLeitura|n"]
-	n0x64e782b9e4f0 [label="Lista Comandos|"]
-	n0x64e782b9db50 [label="Atribuicao|"]
-	n0x64e782b9dbc0 [label="Identificador Atribuiao|1"]
-	n0x64e782b9dae0 [label="Numero|1"]
-	n0x64e782b9e480 [label="Lista Comandos|"]
-	n0x64e782b9e2c0 [label="Repeticao|"]
-	n0x64e782b9dd10 [label="Maior|"]
-	n0x64e782b9dc30 [label="IdentificadorTermo|n"]
-	n0x64e782b9dca0 [label="Numero|0"]
-	n0x64e782b9e250 [label="Lista Comandos|"]
-	n0x64e782b9ded0 [label="Atribuicao|"]
-	n0x64e782b9df40 [label="Identificador Atribuiao|n"]
-	n0x64e782b9de60 [label="Multiplicao|"]
-	n0x64e782b9dd80 [label="IdentificadorTermo|fat"]
-	n0x64e782b9ddf0 [label="IdentificadorTermo|n"]
-	n0x64e782b9e1e0 [label="Lista Comandos|"]
-	n0x64e782b9e100 [label="Atribuicao|"]
-	n0x64e782b9e170 [label="Identificador Atribuiao|1"]
-	n0x64e782b9e090 [label="Subtracao|"]
-	n0x64e782b9dfb0 [label="IdentificadorTermo|n"]
-	n0x64e782b9e020 [label="Numero|1"]
-	n0x64e782b9e410 [label="Lista Comandos|"]
-	n0x64e782b9e3a0 [label="Escrita|"]
-	n0x64e782b9e330 [label="IdentificadorTermo|fat"]
-	n0x64e782b9e5d0 -> n0x64e782b9d6f0
-	n0x64e782b9e5d0 -> n0x64e782b9d920
-	n0x64e782b9d920 -> n0x64e782b9d760
-	n0x64e782b9d920 -> n0x64e782b9d8b0
-	n0x64e782b9d8b0 -> n0x64e782b9d7d0
-	n0x64e782b9d7d0 -> n0x64e782b9d840
-	n0x64e782b9e5d0 -> n0x64e782b9e560
-	n0x64e782b9e560 -> n0x64e782b9da70
-	n0x64e782b9da70 -> n0x64e782b9da00
-	n0x64e782b9e560 -> n0x64e782b9e4f0
-	n0x64e782b9e4f0 -> n0x64e782b9db50
-	n0x64e782b9db50 -> n0x64e782b9dbc0
-	n0x64e782b9db50 -> n0x64e782b9dae0
-	n0x64e782b9e4f0 -> n0x64e782b9e480
-	n0x64e782b9e480 -> n0x64e782b9e2c0
-	n0x64e782b9e2c0 -> n0x64e782b9dd10
-	n0x64e782b9dd10 -> n0x64e782b9dc30
-	n0x64e782b9dd10 -> n0x64e782b9dca0
-	n0x64e782b9e2c0 -> n0x64e782b9e250
-	n0x64e782b9e250 -> n0x64e782b9ded0
-	n0x64e782b9ded0 -> n0x64e782b9df40
-	n0x64e782b9ded0 -> n0x64e782b9de60
-	n0x64e782b9de60 -> n0x64e782b9dd80
-	n0x64e782b9de60 -> n0x64e782b9ddf0
-	n0x64e782b9e250 -> n0x64e782b9e1e0
-	n0x64e782b9e1e0 -> n0x64e782b9e100
-	n0x64e782b9e100 -> n0x64e782b9e170
-	n0x64e782b9e100 -> n0x64e782b9e090
-	n0x64e782b9e090 -> n0x64e782b9dfb0
-	n0x64e782b9e090 -> n0x64e782b9e020
-	n0x64e782b9e480 -> n0x64e782b9e410
-	n0x64e782b9e410 -> n0x64e782b9e3a0
-	n0x64e782b9e3a0 -> n0x64e782b9e330
+	n0x63607765ad10 [label="Programa|"]
+	n0x63607765a6f0 [label="Identificador|dobro"]
+	n0x63607765a8b0 [label="Declaracao de Variaveis|"]
+	n0x63607765a760 [label="Tipo|Inteiro"]
+	n0x63607765a7d0 [label="Lista Variaveis|"]
+	n0x63607765a840 [label="Identificador|n"]
+	n0x63607765aca0 [label="Lista Comandos|"]
+	n0x63607765aa00 [label="Leitura|"]
+	n0x63607765a990 [label="Identificador|n"]
+	n0x63607765ac30 [label="Lista Comandos|"]
+	n0x63607765abc0 [label="Escrita|"]
+	n0x63607765ab50 [label="Multiplicao|"]
+	n0x63607765aa70 [label="Identificador|2"]
+	n0x63607765aae0 [label="Identificador|n"]
+	n0x63607765ad10 -> n0x63607765a6f0
+	n0x63607765ad10 -> n0x63607765a8b0
+	n0x63607765a8b0 -> n0x63607765a760
+	n0x63607765a8b0 -> n0x63607765a7d0
+	n0x63607765a7d0 -> n0x63607765a840
+	n0x63607765ad10 -> n0x63607765aca0
+	n0x63607765aca0 -> n0x63607765aa00
+	n0x63607765aa00 -> n0x63607765a990
+	n0x63607765aca0 -> n0x63607765ac30
+	n0x63607765ac30 -> n0x63607765abc0
+	n0x63607765abc0 -> n0x63607765ab50
+	n0x63607765ab50 -> n0x63607765aa70
+	n0x63607765ab50 -> n0x63607765aae0
 }

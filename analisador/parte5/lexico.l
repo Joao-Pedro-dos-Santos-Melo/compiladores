@@ -22,6 +22,7 @@ extern void adicionaFilho (ptno pai, ptno filho);
 char atomo[100];
 void yyerror(char *);
 
+
 %}
 
 identificador  [a-zA-Z]([a-zA-Z0-9])*

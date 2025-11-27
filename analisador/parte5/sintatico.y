@@ -120,22 +120,24 @@ tipo
 lista_variaveis
     : lista_variaveis T_IDENTIF
         {
-            ptno n = criaNo("Identificador1", atomo);
-            adicionaFilho(n, $1);
-            $$ = n;
+            ptno n = $1;
+            ptno y = criaNo("Lista Variaveis", "");
+            ptno x = criaNo("Identificador", atomo);
+            adicionaFilho(y, n);
+            adicionaFilho(y, x);
+            $$ = y;
         }
         | T_IDENTIF
         {
-            ptno n = criaNo("Lista de comandos", "");
-            ptno n2 = criaNo("Identificador2", atomo);
-            adicionaFilho(n, n2);
+            ptno n = criaNo("Lista Variaveis", "");
+            ptno x = criaNo("Identificador", atomo);
+            adicionaFilho(n, x);
             $$ = n;
         }
     ;
 
 lista_comandos
     : /* vazio */ { $$ = NULL; }
-    | comando { $$ = $1; }
     | comando lista_comandos
     {
         ptno n = criaNo("Lista Comandos", "");
@@ -156,7 +158,7 @@ comando
 leitura
     : T_LEIA T_IDENTIF
          {
-            ptno nid = criaNo("IdenticadorLeitura", atomo);
+            ptno nid = criaNo("Identificador", atomo);
             ptno n = criaNo("Leitura", "");
             adicionaFilho(n, nid);
             $$ = n;
@@ -194,21 +196,21 @@ selecao
     ;
 
 atribuicao
-    : T_IDENTIF T_ATRIB expressao
+    : identificador_no T_ATRIB expressao
     { 
         ptno n = criaNo("Atribuicao", "");
-        ptno n2 = criaNo("Identificador Atribuiao", atomo);
+        //ptno n2 = $1;
         adicionaFilho(n, $3); 
-        adicionaFilho(n, n2); 
+        adicionaFilho(n, $1); 
         $$ = n;
 
-        // ptno no_id = $1;
-        // ptno no_expr = $3;
-        // adicionaFilho(n, no_expr); // Expressão (Lado Direito)
-        // adicionaFilho(n, no_id);   // Identificador (Lado Esquerdo)
-        // $$ = n;
     }
     ;
+
+identificador_no
+    : T_IDENTIF{
+        $$ = criaNo("Identificador", atomo);
+    };
 
 expressao
     : expressao T_VEZES expressao
@@ -281,13 +283,13 @@ termo
     : T_IDENTIF
          { 
             // 1. Cria o nó para o Identificador
-            ptno n = criaNo("IdentificadorTermo", atomo);
+            ptno n = criaNo("Identificador", atomo);
             $$ = n; // Propaga o nó para o próximo nível
          }
     | T_NUMERO
          { 
             // 1. Cria o nó para o literal numérico
-            ptno n = criaNo("Numero", atomo); 
+            ptno n = criaNo("Identificador", atomo); 
             $$ = n; // Propaga o nó para o próximo nível
          }
     | T_V
