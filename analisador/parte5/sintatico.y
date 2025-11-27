@@ -15,7 +15,10 @@ extern FILE *yyin, *yyout;
 int contaVar = 0;
 int tipo;
 int rotulo = 0;
+
 ptno Raiz;
+
+char fileNameBase[30];
 %}
 
 
@@ -67,19 +70,20 @@ programa
     variaveis 
     T_INICIO lista_comandos T_FIM
         { 
-            ptno n = criaNo("Programa", "");
+            ptno n = criaNo("Programa", "", PROG);
             adicionaFilho(n, $4);
             adicionaFilho(n, $2);
             adicionaFilho(n, $1);
             Raiz = n;
-            geraDot(Raiz);
+            geraDot(Raiz, fileNameBase);
+            geraCod(Raiz);
         }
     ;
 
 cabecalho
     : T_PROGRAMA T_IDENTIF
     {
-        ptno n = criaNo("Identificador", atomo);
+        ptno n = criaNo("Identificador", atomo, 0);
         $$ = n;
     }
     ;
@@ -88,7 +92,7 @@ variaveis
     : /* vario */{ $$ = NULL; }
     | declaracao_variaveis
     {
-        ptno n = criaNo("Declaracao de Variaveis", "");
+        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
         adicionaFilho(n, $1);
         $$ = $1;
     }
@@ -97,7 +101,7 @@ variaveis
 declaracao_variaveis
     : tipo lista_variaveis declaracao_variaveis
     {
-        ptno n = criaNo("Declaracao de Variaveis", "");
+        ptno n = criaNo("Declaracao de Variaveis", "", 0);
         adicionaFilho(n, $3);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
@@ -105,7 +109,7 @@ declaracao_variaveis
     }
     | tipo lista_variaveis
     {
-        ptno n = criaNo("Declaracao de Variaveis", "");
+        ptno n = criaNo("Declaracao de Variaveis", "", 0);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -113,24 +117,24 @@ declaracao_variaveis
     ;
 
 tipo
-    : T_LOGICO { $$ = criaNo("Tipo", "Logico"); }
-    | T_INTEIRO { $$ = criaNo("Tipo", "Inteiro"); }
+    : T_LOGICO { $$ = criaNo("Tipo", "Logico", 0); }
+    | T_INTEIRO { $$ = criaNo("Tipo", "Inteiro", 0); }
     ;
 
 lista_variaveis
     : lista_variaveis T_IDENTIF
-        {
+        {        
             ptno n = $1;
-            ptno y = criaNo("Lista Variaveis", "");
-            ptno x = criaNo("Identificador", atomo);
+            ptno y = criaNo("Lista Variaveis", "", 0);
+            ptno x = criaNo("Identificador", atomo, 0);
             adicionaFilho(y, n);
             adicionaFilho(y, x);
             $$ = y;
         }
         | T_IDENTIF
         {
-            ptno n = criaNo("Lista Variaveis", "");
-            ptno x = criaNo("Identificador", atomo);
+            ptno n = criaNo("Lista Variaveis", "", 0);
+            ptno x = criaNo("Identificador", atomo, 0);
             adicionaFilho(n, x);
             $$ = n;
         }
@@ -140,7 +144,7 @@ lista_comandos
     : /* vazio */ { $$ = NULL; }
     | comando lista_comandos
     {
-        ptno n = criaNo("Lista Comandos", "");
+        ptno n = criaNo("Lista Comandos", "", 0);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -158,8 +162,8 @@ comando
 leitura
     : T_LEIA T_IDENTIF
          {
-            ptno nid = criaNo("Identificador", atomo);
-            ptno n = criaNo("Leitura", "");
+            ptno nid = criaNo("Identificador", atomo, 0);
+            ptno n = criaNo("Leitura", "", LEIT);
             adicionaFilho(n, nid);
             $$ = n;
          }
@@ -168,7 +172,7 @@ leitura
 escrita
     : T_ESCREVA expressao
          {
-            ptno n = criaNo("Escrita", "");
+            ptno n = criaNo("Escrita", "", ESCR);
             adicionaFilho(n, $2);
             $$ = n;
          }
@@ -177,7 +181,7 @@ escrita
 repeticao
     : T_ENQTO expressao T_FACA lista_comandos T_FIMENQTO
          {
-            ptno n = criaNo("Repeticao", ""); // Nó de While
+            ptno n = criaNo("Repeticao", "", REPT); // Nó de While
             adicionaFilho(n, $4);    // Filhos: 1) Lista de Comandos
             adicionaFilho(n, $2);    //         2) Expressão Condicional
             $$ = n;
@@ -187,7 +191,7 @@ repeticao
 selecao
     : T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE
          { 
-            ptno n = criaNo("Selecao", "");
+            ptno n = criaNo("Selecao", "", 0);
             adicionaFilho(n, $6); // 3º filho (Else)
             adicionaFilho(n, $4); // 2º filho (Then)
             adicionaFilho(n, $2); // 1º filho (Condição)
@@ -198,7 +202,7 @@ selecao
 atribuicao
     : identificador_no T_ATRIB expressao
     { 
-        ptno n = criaNo("Atribuicao", "");
+        ptno n = criaNo("Atribuicao", "", ATRI);
         //ptno n2 = $1;
         adicionaFilho(n, $3); 
         adicionaFilho(n, $1); 
@@ -209,69 +213,69 @@ atribuicao
 
 identificador_no
     : T_IDENTIF{
-        $$ = criaNo("Identificador", atomo);
+        $$ = criaNo("Identificador", atomo, 0);
     };
 
 expressao
     : expressao T_VEZES expressao
          { 
-            ptno n = criaNo("Multiplicao", "");
+            ptno n = criaNo("Multiplicao", "", MULT);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_DIV expressao
          { 
-            ptno n = criaNo("Divisao", "");
+            ptno n = criaNo("Divisao", "", DIVI);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MAIS expressao
          { 
-            ptno n = criaNo("Soma", "");
+            ptno n = criaNo("Soma", "", MAIS);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MENOS expressao
          { 
-            ptno n = criaNo("Subtracao", "");
+            ptno n = criaNo("Subtracao", "", MENO);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MAIOR expressao
          { 
-            ptno n = criaNo("Maior", "");
+            ptno n = criaNo("Maior", "", CMMA);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_MENOR expressao
          { 
-            ptno n = criaNo("Menor", "");
+            ptno n = criaNo("Menor", "", CMME);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_IGUAL expressao
          { 
-            ptno n = criaNo("Igual", "");
+            ptno n = criaNo("Igual", "", CMIG);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_E expressao
          { 
-            ptno n = criaNo("&", "");
+            ptno n = criaNo("&", "", CONJ);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
          }
     | expressao T_OU expressao
          { 
-            ptno n = criaNo("OU", "");
+            ptno n = criaNo("OU", "", DISJ);
             adicionaFilho(n, $3);
             adicionaFilho(n, $1);
             $$ = n;
@@ -283,26 +287,26 @@ termo
     : T_IDENTIF
          { 
             // 1. Cria o nó para o Identificador
-            ptno n = criaNo("Identificador", atomo);
+            ptno n = criaNo("Identificador", atomo, IDEN);
             $$ = n; // Propaga o nó para o próximo nível
          }
     | T_NUMERO
          { 
             // 1. Cria o nó para o literal numérico
-            ptno n = criaNo("Identificador", atomo); 
+            ptno n = criaNo("Identificador", atomo, NUME); 
             $$ = n; // Propaga o nó para o próximo nível
          }
     | T_V
          { 
-            $$ = criaNo("V", "");
+            $$ = criaNo("V", "1", NUME);
          }
     | T_F
          { 
-            $$ = criaNo("F", "");
+            $$ = criaNo("F", "0", NUME);
         }
     | T_NAO termo
          { 
-            ptno n = criaNo("NAO", "");
+            ptno n = criaNo("NAO", "", NAO);
             adicionaFilho(n, $2);
             $$ = n;
          }
@@ -329,6 +333,8 @@ int main (int argc, char *argv[]){
     if (p){
         *p = 0;
     }
+
+    strcpy(fileNameBase, argv[1]);
 
     strcpy(nameIn, argv[1]);
     strcpy(nameOut, argv[1]);

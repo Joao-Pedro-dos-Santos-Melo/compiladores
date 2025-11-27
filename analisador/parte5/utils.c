@@ -80,3 +80,5 @@ void testaTipo(int tipo1, int tipo2, int ret){
     empilha(ret);
 }
 
+
+

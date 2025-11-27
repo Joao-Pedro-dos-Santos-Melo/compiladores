@@ -1,0 +1,72 @@
+digraph {
+	node [ shape=record, height = .1] ;
+	n0x5c7484bf5640 [label="Programa|"]
+	n0x5c7484bf46f0 [label="Identificador|fatorial"]
+	n0x5c7484bf4990 [label="Declaracao de Variaveis|"]
+	n0x5c7484bf4760 [label="Tipo|Inteiro"]
+	n0x5c7484bf48b0 [label="Lista Variaveis|"]
+	n0x5c7484bf4920 [label="Identificador|fat"]
+	n0x5c7484bf47d0 [label="Lista Variaveis|"]
+	n0x5c7484bf4840 [label="Identificador|n"]
+	n0x5c7484bf55d0 [label="Lista Comandos|"]
+	n0x5c7484bf4ae0 [label="Leitura|"]
+	n0x5c7484bf4a70 [label="Identificador|n"]
+	n0x5c7484bf5560 [label="Lista Comandos|"]
+	n0x5c7484bf4c30 [label="Atribuicao|"]
+	n0x5c7484bf4b50 [label="Identificador|fat"]
+	n0x5c7484bf4bc0 [label="Identificador|1"]
+	n0x5c7484bf54f0 [label="Lista Comandos|"]
+	n0x5c7484bf5330 [label="Repeticao|"]
+	n0x5c7484bf4d80 [label="Maior|"]
+	n0x5c7484bf4ca0 [label="Identificador|n"]
+	n0x5c7484bf4d10 [label="Identificador|0"]
+	n0x5c7484bf52c0 [label="Lista Comandos|"]
+	n0x5c7484bf4fb0 [label="Atribuicao|"]
+	n0x5c7484bf4df0 [label="Identificador|fat"]
+	n0x5c7484bf4f40 [label="Multiplicao|"]
+	n0x5c7484bf4e60 [label="Identificador|fat"]
+	n0x5c7484bf4ed0 [label="Identificador|n"]
+	n0x5c7484bf5250 [label="Lista Comandos|"]
+	n0x5c7484bf51e0 [label="Atribuicao|"]
+	n0x5c7484bf5020 [label="Identificador|n"]
+	n0x5c7484bf5170 [label="Subtracao|"]
+	n0x5c7484bf5090 [label="Identificador|n"]
+	n0x5c7484bf5100 [label="Identificador|1"]
+	n0x5c7484bf5480 [label="Lista Comandos|"]
+	n0x5c7484bf5410 [label="Escrita|"]
+	n0x5c7484bf53a0 [label="Identificador|fat"]
+	n0x5c7484bf5640 -> n0x5c7484bf46f0
+	n0x5c7484bf5640 -> n0x5c7484bf4990
+	n0x5c7484bf4990 -> n0x5c7484bf4760
+	n0x5c7484bf4990 -> n0x5c7484bf48b0
+	n0x5c7484bf48b0 -> n0x5c7484bf4920
+	n0x5c7484bf48b0 -> n0x5c7484bf47d0
+	n0x5c7484bf47d0 -> n0x5c7484bf4840
+	n0x5c7484bf5640 -> n0x5c7484bf55d0
+	n0x5c7484bf55d0 -> n0x5c7484bf4ae0
+	n0x5c7484bf4ae0 -> n0x5c7484bf4a70
+	n0x5c7484bf55d0 -> n0x5c7484bf5560
+	n0x5c7484bf5560 -> n0x5c7484bf4c30
+	n0x5c7484bf4c30 -> n0x5c7484bf4b50
+	n0x5c7484bf4c30 -> n0x5c7484bf4bc0
+	n0x5c7484bf5560 -> n0x5c7484bf54f0
+	n0x5c7484bf54f0 -> n0x5c7484bf5330
+	n0x5c7484bf5330 -> n0x5c7484bf4d80
+	n0x5c7484bf4d80 -> n0x5c7484bf4ca0
+	n0x5c7484bf4d80 -> n0x5c7484bf4d10
+	n0x5c7484bf5330 -> n0x5c7484bf52c0
+	n0x5c7484bf52c0 -> n0x5c7484bf4fb0
+	n0x5c7484bf4fb0 -> n0x5c7484bf4df0
+	n0x5c7484bf4fb0 -> n0x5c7484bf4f40
+	n0x5c7484bf4f40 -> n0x5c7484bf4e60
+	n0x5c7484bf4f40 -> n0x5c7484bf4ed0
+	n0x5c7484bf52c0 -> n0x5c7484bf5250
+	n0x5c7484bf5250 -> n0x5c7484bf51e0
+	n0x5c7484bf51e0 -> n0x5c7484bf5020
+	n0x5c7484bf51e0 -> n0x5c7484bf5170
+	n0x5c7484bf5170 -> n0x5c7484bf5090
+	n0x5c7484bf5170 -> n0x5c7484bf5100
+	n0x5c7484bf54f0 -> n0x5c7484bf5480
+	n0x5c7484bf5480 -> n0x5c7484bf5410
+	n0x5c7484bf5410 -> n0x5c7484bf53a0
+}

@@ -15,7 +15,7 @@ struct no {
 #define YYSTYPE ptno
 
 // Declarações Externas para as funções (Implementação está no sintatico.c via include)
-extern ptno criaNo (const char *tipo_str, const char *valor_str); 
+extern ptno criaNo (const char *tipo_str, const char *valor_str, int c); 
 extern void adicionaFilho (ptno pai, ptno filho);
 
 
