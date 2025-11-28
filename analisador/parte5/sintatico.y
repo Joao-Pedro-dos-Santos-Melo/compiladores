@@ -1,3 +1,12 @@
+/*---------------------------------------------------------------+
+|   UNIFAL - Universidade Federal de Alfenas                     |
+|   Bacharelado em Ciência da Computação                         |
+|   Trabalho: Construcao Arvore Sintatica e Geracao de codigo    |
+|   Disciplina: Teoria de Linguagens e Compiladores              |
+|   Professor: Luiz Ediardo da Silva                             |
+|   Aluna: João Pedro dos Santos Melo                            |
+|   Data: 28/11/2025                                             |
++----------------------------------------------------------------*/
 %{
 #include <stdio.h>
 #include <string.h>
@@ -92,8 +101,6 @@ variaveis
     : /* vario */{ $$ = NULL; }
     | declaracao_variaveis
     {
-        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
-        adicionaFilho(n, $1);
         $$ = $1;
     }
     ;
@@ -101,7 +108,7 @@ variaveis
 declaracao_variaveis
     : tipo lista_variaveis declaracao_variaveis
     {
-        ptno n = criaNo("Declaracao de Variaveis", "", 0);
+        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
         adicionaFilho(n, $3);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
@@ -109,7 +116,7 @@ declaracao_variaveis
     }
     | tipo lista_variaveis
     {
-        ptno n = criaNo("Declaracao de Variaveis", "", 0);
+        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -125,16 +132,16 @@ lista_variaveis
     : lista_variaveis T_IDENTIF
         {        
             ptno n = $1;
-            ptno y = criaNo("Lista Variaveis", "", 0);
-            ptno x = criaNo("Identificador", atomo, 0);
+            ptno y = criaNo("Lista Variaveis", "", LVAR);
+            ptno x = criaNo("Identificador", atomo, ARGZ);
             adicionaFilho(y, n);
             adicionaFilho(y, x);
             $$ = y;
         }
         | T_IDENTIF
         {
-            ptno n = criaNo("Lista Variaveis", "", 0);
-            ptno x = criaNo("Identificador", atomo, 0);
+            ptno n = criaNo("Lista Variaveis", "", LVAR);
+            ptno x = criaNo("Identificador", atomo, ARGZ);
             adicionaFilho(n, x);
             $$ = n;
         }
@@ -144,7 +151,7 @@ lista_comandos
     : /* vazio */ { $$ = NULL; }
     | comando lista_comandos
     {
-        ptno n = criaNo("Lista Comandos", "", 0);
+        ptno n = criaNo("Lista Comandos", "", LCOM);
         adicionaFilho(n, $2);
         adicionaFilho(n, $1);
         $$ = n;
@@ -191,7 +198,7 @@ repeticao
 selecao
     : T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE
          { 
-            ptno n = criaNo("Selecao", "", 0);
+            ptno n = criaNo("Selecao", "", SELE);
             adicionaFilho(n, $6); // 3º filho (Else)
             adicionaFilho(n, $4); // 2º filho (Then)
             adicionaFilho(n, $2); // 1º filho (Condição)
@@ -280,7 +287,7 @@ expressao
             adicionaFilho(n, $1);
             $$ = n;
          }
-    | termo {$$ = $1; }
+    | termo { $$ = $1; }
     ;
 
 termo
@@ -298,11 +305,11 @@ termo
          }
     | T_V
          { 
-            $$ = criaNo("V", "1", NUME);
+            $$ = criaNo("V", "1", LOGC);
          }
     | T_F
          { 
-            $$ = criaNo("F", "0", NUME);
+            $$ = criaNo("F", "0", LOGC);
         }
     | T_NAO termo
          { 

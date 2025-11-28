@@ -1,0 +1,54 @@
+digraph {
+	node [ shape=record, height = .1] ;
+	n0x590b96fd51e0 [label="Programa|"]
+	n0x590b96fd46f0 [label="Identificador|maior"]
+	n0x590b96fd4990 [label="Declaracao de Variaveis|"]
+	n0x590b96fd4760 [label="Tipo|Inteiro"]
+	n0x590b96fd48b0 [label="Lista Variaveis|"]
+	n0x590b96fd4920 [label="Identificador|b"]
+	n0x590b96fd47d0 [label="Lista Variaveis|"]
+	n0x590b96fd4840 [label="Identificador|a"]
+	n0x590b96fd5170 [label="Lista Comandos|"]
+	n0x590b96fd4a70 [label="Leitura|"]
+	n0x590b96fd4a00 [label="Identificador|a"]
+	n0x590b96fd5100 [label="Lista Comandos|"]
+	n0x590b96fd4b50 [label="Leitura|"]
+	n0x590b96fd4ae0 [label="Identificador|b"]
+	n0x590b96fd5090 [label="Lista Comandos|"]
+	n0x590b96fd5020 [label="Selecao|"]
+	n0x590b96fd4d10 [label="NAO|"]
+	n0x590b96fd4ca0 [label="Menor|"]
+	n0x590b96fd4bc0 [label="Identificador|a"]
+	n0x590b96fd4c30 [label="Identificador|b"]
+	n0x590b96fd4e60 [label="Lista Comandos|"]
+	n0x590b96fd4df0 [label="Escrita|"]
+	n0x590b96fd4d80 [label="Identificador|a"]
+	n0x590b96fd4fb0 [label="Lista Comandos|"]
+	n0x590b96fd4f40 [label="Escrita|"]
+	n0x590b96fd4ed0 [label="Identificador|b"]
+	n0x590b96fd51e0 -> n0x590b96fd46f0
+	n0x590b96fd51e0 -> n0x590b96fd4990
+	n0x590b96fd4990 -> n0x590b96fd4760
+	n0x590b96fd4990 -> n0x590b96fd48b0
+	n0x590b96fd48b0 -> n0x590b96fd4920
+	n0x590b96fd48b0 -> n0x590b96fd47d0
+	n0x590b96fd47d0 -> n0x590b96fd4840
+	n0x590b96fd51e0 -> n0x590b96fd5170
+	n0x590b96fd5170 -> n0x590b96fd4a70
+	n0x590b96fd4a70 -> n0x590b96fd4a00
+	n0x590b96fd5170 -> n0x590b96fd5100
+	n0x590b96fd5100 -> n0x590b96fd4b50
+	n0x590b96fd4b50 -> n0x590b96fd4ae0
+	n0x590b96fd5100 -> n0x590b96fd5090
+	n0x590b96fd5090 -> n0x590b96fd5020
+	n0x590b96fd5020 -> n0x590b96fd4d10
+	n0x590b96fd4d10 -> n0x590b96fd4ca0
+	n0x590b96fd4ca0 -> n0x590b96fd4bc0
+	n0x590b96fd4ca0 -> n0x590b96fd4c30
+	n0x590b96fd5020 -> n0x590b96fd4e60
+	n0x590b96fd4e60 -> n0x590b96fd4df0
+	n0x590b96fd4df0 -> n0x590b96fd4d80
+	n0x590b96fd5020 -> n0x590b96fd4fb0
+	n0x590b96fd4fb0 -> n0x590b96fd4f40
+	n0x590b96fd4f40 -> n0x590b96fd4ed0
+}

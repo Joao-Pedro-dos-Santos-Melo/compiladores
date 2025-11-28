@@ -557,11 +557,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    69,    69,    84,    92,    93,   102,   110,   120,   121,
-     125,   134,   144,   145,   155,   156,   157,   158,   159,   163,
-     173,   182,   192,   203,   215,   220,   227,   234,   241,   248,
-     255,   262,   269,   276,   283,   287,   293,   299,   303,   307,
-     313
+       0,    69,    69,    84,    92,    93,   100,   108,   118,   119,
+     123,   132,   142,   143,   153,   154,   155,   156,   157,   161,
+     171,   180,   190,   201,   213,   218,   225,   232,   239,   246,
+     253,   260,   267,   274,   281,   285,   291,   297,   301,   305,
+     311
 };
 #endif
 
@@ -1207,165 +1207,163 @@ yyreduce:
   case 5: /* variaveis: declaracao_variaveis  */
 #line 94 "sintatico.y"
     {
-        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
-        adicionaFilho(n, yyvsp[0]);
         yyval = yyvsp[0];
     }
-#line 1215 "sintatico.c"
+#line 1213 "sintatico.c"
     break;
 
   case 6: /* declaracao_variaveis: tipo lista_variaveis declaracao_variaveis  */
-#line 103 "sintatico.y"
+#line 101 "sintatico.y"
     {
-        ptno n = criaNo("Declaracao de Variaveis", "", 0);
+        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
         adicionaFilho(n, yyvsp[0]);
         adicionaFilho(n, yyvsp[-1]);
         adicionaFilho(n, yyvsp[-2]);
         yyval = n;
     }
-#line 1227 "sintatico.c"
+#line 1225 "sintatico.c"
     break;
 
   case 7: /* declaracao_variaveis: tipo lista_variaveis  */
-#line 111 "sintatico.y"
+#line 109 "sintatico.y"
     {
-        ptno n = criaNo("Declaracao de Variaveis", "", 0);
+        ptno n = criaNo("Declaracao de Variaveis", "", VARI);
         adicionaFilho(n, yyvsp[0]);
         adicionaFilho(n, yyvsp[-1]);
         yyval = n;
     }
-#line 1238 "sintatico.c"
+#line 1236 "sintatico.c"
     break;
 
   case 8: /* tipo: T_LOGICO  */
-#line 120 "sintatico.y"
+#line 118 "sintatico.y"
                { yyval = criaNo("Tipo", "Logico", 0); }
-#line 1244 "sintatico.c"
+#line 1242 "sintatico.c"
     break;
 
   case 9: /* tipo: T_INTEIRO  */
-#line 121 "sintatico.y"
+#line 119 "sintatico.y"
                 { yyval = criaNo("Tipo", "Inteiro", 0); }
-#line 1250 "sintatico.c"
+#line 1248 "sintatico.c"
     break;
 
   case 10: /* lista_variaveis: lista_variaveis T_IDENTIF  */
-#line 126 "sintatico.y"
+#line 124 "sintatico.y"
         {        
             ptno n = yyvsp[-1];
-            ptno y = criaNo("Lista Variaveis", "", 0);
-            ptno x = criaNo("Identificador", atomo, 0);
+            ptno y = criaNo("Lista Variaveis", "", LVAR);
+            ptno x = criaNo("Identificador", atomo, ARGZ);
             adicionaFilho(y, n);
             adicionaFilho(y, x);
             yyval = y;
         }
-#line 1263 "sintatico.c"
+#line 1261 "sintatico.c"
     break;
 
   case 11: /* lista_variaveis: T_IDENTIF  */
-#line 135 "sintatico.y"
+#line 133 "sintatico.y"
         {
-            ptno n = criaNo("Lista Variaveis", "", 0);
-            ptno x = criaNo("Identificador", atomo, 0);
+            ptno n = criaNo("Lista Variaveis", "", LVAR);
+            ptno x = criaNo("Identificador", atomo, ARGZ);
             adicionaFilho(n, x);
             yyval = n;
         }
-#line 1274 "sintatico.c"
+#line 1272 "sintatico.c"
     break;
 
   case 12: /* lista_comandos: %empty  */
-#line 144 "sintatico.y"
+#line 142 "sintatico.y"
                   { yyval = NULL; }
-#line 1280 "sintatico.c"
+#line 1278 "sintatico.c"
     break;
 
   case 13: /* lista_comandos: comando lista_comandos  */
-#line 146 "sintatico.y"
+#line 144 "sintatico.y"
     {
-        ptno n = criaNo("Lista Comandos", "", 0);
+        ptno n = criaNo("Lista Comandos", "", LCOM);
         adicionaFilho(n, yyvsp[0]);
         adicionaFilho(n, yyvsp[-1]);
         yyval = n;
     }
-#line 1291 "sintatico.c"
+#line 1289 "sintatico.c"
     break;
 
   case 14: /* comando: leitura  */
-#line 155 "sintatico.y"
+#line 153 "sintatico.y"
               { yyval = yyvsp[0]; }
-#line 1297 "sintatico.c"
+#line 1295 "sintatico.c"
     break;
 
   case 15: /* comando: escrita  */
-#line 156 "sintatico.y"
+#line 154 "sintatico.y"
               { yyval = yyvsp[0]; }
-#line 1303 "sintatico.c"
+#line 1301 "sintatico.c"
     break;
 
   case 16: /* comando: repeticao  */
-#line 157 "sintatico.y"
+#line 155 "sintatico.y"
                 { yyval = yyvsp[0]; }
-#line 1309 "sintatico.c"
+#line 1307 "sintatico.c"
     break;
 
   case 17: /* comando: selecao  */
-#line 158 "sintatico.y"
+#line 156 "sintatico.y"
               { yyval = yyvsp[0]; }
-#line 1315 "sintatico.c"
+#line 1313 "sintatico.c"
     break;
 
   case 18: /* comando: atribuicao  */
-#line 159 "sintatico.y"
+#line 157 "sintatico.y"
                  { yyval = yyvsp[0]; }
-#line 1321 "sintatico.c"
+#line 1319 "sintatico.c"
     break;
 
   case 19: /* leitura: T_LEIA T_IDENTIF  */
-#line 164 "sintatico.y"
+#line 162 "sintatico.y"
          {
             ptno nid = criaNo("Identificador", atomo, 0);
             ptno n = criaNo("Leitura", "", LEIT);
             adicionaFilho(n, nid);
             yyval = n;
          }
-#line 1332 "sintatico.c"
+#line 1330 "sintatico.c"
     break;
 
   case 20: /* escrita: T_ESCREVA expressao  */
-#line 174 "sintatico.y"
+#line 172 "sintatico.y"
          {
             ptno n = criaNo("Escrita", "", ESCR);
             adicionaFilho(n, yyvsp[0]);
             yyval = n;
          }
-#line 1342 "sintatico.c"
+#line 1340 "sintatico.c"
     break;
 
   case 21: /* repeticao: T_ENQTO expressao T_FACA lista_comandos T_FIMENQTO  */
-#line 183 "sintatico.y"
+#line 181 "sintatico.y"
          {
             ptno n = criaNo("Repeticao", "", REPT); // Nó de While
             adicionaFilho(n, yyvsp[-1]);    // Filhos: 1) Lista de Comandos
             adicionaFilho(n, yyvsp[-3]);    //         2) Expressão Condicional
             yyval = n;
          }
-#line 1353 "sintatico.c"
+#line 1351 "sintatico.c"
     break;
 
   case 22: /* selecao: T_SE expressao T_ENTAO lista_comandos T_SENAO lista_comandos T_FIMSE  */
-#line 193 "sintatico.y"
+#line 191 "sintatico.y"
          { 
-            ptno n = criaNo("Selecao", "", 0);
+            ptno n = criaNo("Selecao", "", SELE);
             adicionaFilho(n, yyvsp[-1]); // 3º filho (Else)
             adicionaFilho(n, yyvsp[-3]); // 2º filho (Then)
             adicionaFilho(n, yyvsp[-5]); // 1º filho (Condição)
             yyval = n;
          }
-#line 1365 "sintatico.c"
+#line 1363 "sintatico.c"
     break;
 
   case 23: /* atribuicao: identificador_no T_ATRIB expressao  */
-#line 204 "sintatico.y"
+#line 202 "sintatico.y"
     { 
         ptno n = criaNo("Atribuicao", "", ATRI);
         //ptno n2 = $1;
@@ -1374,178 +1372,178 @@ yyreduce:
         yyval = n;
 
     }
-#line 1378 "sintatico.c"
+#line 1376 "sintatico.c"
     break;
 
   case 24: /* identificador_no: T_IDENTIF  */
-#line 215 "sintatico.y"
+#line 213 "sintatico.y"
                {
         yyval = criaNo("Identificador", atomo, 0);
     }
-#line 1386 "sintatico.c"
+#line 1384 "sintatico.c"
     break;
 
   case 25: /* expressao: expressao T_VEZES expressao  */
-#line 221 "sintatico.y"
+#line 219 "sintatico.y"
          { 
             ptno n = criaNo("Multiplicao", "", MULT);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1397 "sintatico.c"
+#line 1395 "sintatico.c"
     break;
 
   case 26: /* expressao: expressao T_DIV expressao  */
-#line 228 "sintatico.y"
+#line 226 "sintatico.y"
          { 
             ptno n = criaNo("Divisao", "", DIVI);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1408 "sintatico.c"
+#line 1406 "sintatico.c"
     break;
 
   case 27: /* expressao: expressao T_MAIS expressao  */
-#line 235 "sintatico.y"
+#line 233 "sintatico.y"
          { 
             ptno n = criaNo("Soma", "", MAIS);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1419 "sintatico.c"
+#line 1417 "sintatico.c"
     break;
 
   case 28: /* expressao: expressao T_MENOS expressao  */
-#line 242 "sintatico.y"
+#line 240 "sintatico.y"
          { 
             ptno n = criaNo("Subtracao", "", MENO);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1430 "sintatico.c"
+#line 1428 "sintatico.c"
     break;
 
   case 29: /* expressao: expressao T_MAIOR expressao  */
-#line 249 "sintatico.y"
+#line 247 "sintatico.y"
          { 
             ptno n = criaNo("Maior", "", CMMA);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1441 "sintatico.c"
+#line 1439 "sintatico.c"
     break;
 
   case 30: /* expressao: expressao T_MENOR expressao  */
-#line 256 "sintatico.y"
+#line 254 "sintatico.y"
          { 
             ptno n = criaNo("Menor", "", CMME);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1452 "sintatico.c"
+#line 1450 "sintatico.c"
     break;
 
   case 31: /* expressao: expressao T_IGUAL expressao  */
-#line 263 "sintatico.y"
+#line 261 "sintatico.y"
          { 
             ptno n = criaNo("Igual", "", CMIG);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1463 "sintatico.c"
+#line 1461 "sintatico.c"
     break;
 
   case 32: /* expressao: expressao T_E expressao  */
-#line 270 "sintatico.y"
+#line 268 "sintatico.y"
          { 
             ptno n = criaNo("&", "", CONJ);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1474 "sintatico.c"
+#line 1472 "sintatico.c"
     break;
 
   case 33: /* expressao: expressao T_OU expressao  */
-#line 277 "sintatico.y"
+#line 275 "sintatico.y"
          { 
             ptno n = criaNo("OU", "", DISJ);
             adicionaFilho(n, yyvsp[0]);
             adicionaFilho(n, yyvsp[-2]);
             yyval = n;
          }
-#line 1485 "sintatico.c"
+#line 1483 "sintatico.c"
     break;
 
   case 34: /* expressao: termo  */
-#line 283 "sintatico.y"
-            {yyval = yyvsp[0]; }
-#line 1491 "sintatico.c"
+#line 281 "sintatico.y"
+            { yyval = yyvsp[0]; }
+#line 1489 "sintatico.c"
     break;
 
   case 35: /* termo: T_IDENTIF  */
-#line 288 "sintatico.y"
+#line 286 "sintatico.y"
          { 
             // 1. Cria o nó para o Identificador
             ptno n = criaNo("Identificador", atomo, IDEN);
             yyval = n; // Propaga o nó para o próximo nível
          }
-#line 1501 "sintatico.c"
+#line 1499 "sintatico.c"
     break;
 
   case 36: /* termo: T_NUMERO  */
-#line 294 "sintatico.y"
+#line 292 "sintatico.y"
          { 
             // 1. Cria o nó para o literal numérico
             ptno n = criaNo("Identificador", atomo, NUME); 
             yyval = n; // Propaga o nó para o próximo nível
          }
-#line 1511 "sintatico.c"
+#line 1509 "sintatico.c"
     break;
 
   case 37: /* termo: T_V  */
-#line 300 "sintatico.y"
+#line 298 "sintatico.y"
          { 
-            yyval = criaNo("V", "1", NUME);
+            yyval = criaNo("V", "1", LOGC);
          }
-#line 1519 "sintatico.c"
+#line 1517 "sintatico.c"
     break;
 
   case 38: /* termo: T_F  */
-#line 304 "sintatico.y"
+#line 302 "sintatico.y"
          { 
-            yyval = criaNo("F", "0", NUME);
+            yyval = criaNo("F", "0", LOGC);
         }
-#line 1527 "sintatico.c"
+#line 1525 "sintatico.c"
     break;
 
   case 39: /* termo: T_NAO termo  */
-#line 308 "sintatico.y"
+#line 306 "sintatico.y"
          { 
             ptno n = criaNo("NAO", "", NAO);
             adicionaFilho(n, yyvsp[0]);
             yyval = n;
          }
-#line 1537 "sintatico.c"
+#line 1535 "sintatico.c"
     break;
 
   case 40: /* termo: T_ABRE expressao T_FECHA  */
-#line 314 "sintatico.y"
+#line 312 "sintatico.y"
     {
         yyval = yyvsp[-1]; // Propaga o nó da expressão interna
     }
-#line 1545 "sintatico.c"
+#line 1543 "sintatico.c"
     break;
 
 
-#line 1549 "sintatico.c"
+#line 1547 "sintatico.c"
 
       default: break;
     }
@@ -1738,7 +1736,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 318 "sintatico.y"
+#line 316 "sintatico.y"
 
 
 void yyerror(char *s){

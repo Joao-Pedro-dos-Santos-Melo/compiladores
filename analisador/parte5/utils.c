@@ -1,3 +1,12 @@
+/*---------------------------------------------------------------+
+|   UNIFAL - Universidade Federal de Alfenas                     |
+|   Bacharelado em Ciência da Computação                         |
+|   Trabalho: Construcao Arvore Sintatica e Geracao de codigo    |
+|   Disciplina: Teoria de Linguagens e Compiladores              |
+|   Professor: Luiz Ediardo da Silva                             |
+|   Aluna: João Pedro dos Santos Melo                            |
+|   Data: 28/11/2025                                             |
++----------------------------------------------------------------*/
 #define TAM_TAB 100
 #include <stdlib.h>
 #include <stdio.h>    

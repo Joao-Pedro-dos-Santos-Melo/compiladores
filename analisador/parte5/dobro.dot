@@ -1,30 +1,30 @@
 digraph {
 	node [ shape=record, height = .1] ;
-	n0x57a3606e2d10 [label="Programa|"]
-	n0x57a3606e26f0 [label="Identificador|dobro"]
-	n0x57a3606e28b0 [label="Declaracao de Variaveis|"]
-	n0x57a3606e2760 [label="Tipo|Inteiro"]
-	n0x57a3606e27d0 [label="Lista Variaveis|"]
-	n0x57a3606e2840 [label="Identificador|n"]
-	n0x57a3606e2ca0 [label="Lista Comandos|"]
-	n0x57a3606e2a00 [label="Leitura|"]
-	n0x57a3606e2990 [label="Identificador|n"]
-	n0x57a3606e2c30 [label="Lista Comandos|"]
-	n0x57a3606e2bc0 [label="Escrita|"]
-	n0x57a3606e2b50 [label="Multiplicao|"]
-	n0x57a3606e2a70 [label="Identificador|2"]
-	n0x57a3606e2ae0 [label="Identificador|n"]
-	n0x57a3606e2d10 -> n0x57a3606e26f0
-	n0x57a3606e2d10 -> n0x57a3606e28b0
-	n0x57a3606e28b0 -> n0x57a3606e2760
-	n0x57a3606e28b0 -> n0x57a3606e27d0
-	n0x57a3606e27d0 -> n0x57a3606e2840
-	n0x57a3606e2d10 -> n0x57a3606e2ca0
-	n0x57a3606e2ca0 -> n0x57a3606e2a00
-	n0x57a3606e2a00 -> n0x57a3606e2990
-	n0x57a3606e2ca0 -> n0x57a3606e2c30
-	n0x57a3606e2c30 -> n0x57a3606e2bc0
-	n0x57a3606e2bc0 -> n0x57a3606e2b50
-	n0x57a3606e2b50 -> n0x57a3606e2a70
-	n0x57a3606e2b50 -> n0x57a3606e2ae0
+	n0x58da3d64bca0 [label="Programa|"]
+	n0x58da3d64b6f0 [label="Identificador|dobro"]
+	n0x58da3d64b8b0 [label="Declaracao de Variaveis|"]
+	n0x58da3d64b760 [label="Tipo|Inteiro"]
+	n0x58da3d64b7d0 [label="Lista Variaveis|"]
+	n0x58da3d64b840 [label="Identificador|n"]
+	n0x58da3d64bc30 [label="Lista Comandos|"]
+	n0x58da3d64b990 [label="Leitura|"]
+	n0x58da3d64b920 [label="Identificador|n"]
+	n0x58da3d64bbc0 [label="Lista Comandos|"]
+	n0x58da3d64bb50 [label="Escrita|"]
+	n0x58da3d64bae0 [label="Multiplicao|"]
+	n0x58da3d64ba00 [label="Identificador|2"]
+	n0x58da3d64ba70 [label="Identificador|n"]
+	n0x58da3d64bca0 -> n0x58da3d64b6f0
+	n0x58da3d64bca0 -> n0x58da3d64b8b0
+	n0x58da3d64b8b0 -> n0x58da3d64b760
+	n0x58da3d64b8b0 -> n0x58da3d64b7d0
+	n0x58da3d64b7d0 -> n0x58da3d64b840
+	n0x58da3d64bca0 -> n0x58da3d64bc30
+	n0x58da3d64bc30 -> n0x58da3d64b990
+	n0x58da3d64b990 -> n0x58da3d64b920
+	n0x58da3d64bc30 -> n0x58da3d64bbc0
+	n0x58da3d64bbc0 -> n0x58da3d64bb50
+	n0x58da3d64bb50 -> n0x58da3d64bae0
+	n0x58da3d64bae0 -> n0x58da3d64ba00
+	n0x58da3d64bae0 -> n0x58da3d64ba70
 }
